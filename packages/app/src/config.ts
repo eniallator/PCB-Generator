@@ -1,96 +1,83 @@
 import {
-  buttonParser,
-  checkboxParser,
   collectionParser,
   colorParser,
   createParsers,
-  datetimeParser,
-  fileParser,
   numberParser,
   rangeParser,
-  selectParser,
-  textParser,
 } from "@web-art/config-parser";
 
 export const config = createParsers({
-  "example-checkbox": checkboxParser({
-    label: "Example Checkbox",
-    title: "Example title",
-    default: true,
+  "bg-colour": colorParser({ label: "Background Colour", default: "2F9D0F" }),
+  "wire-colour": colorParser({ label: "Wire Colour", default: "FFF1BD" }),
+  "resistor-bg-colour": colorParser({
+    label: "Resistor Background Colour",
+    default: "C2B498",
   }),
-  "example-range": rangeParser({
-    label: "Example Range",
-    default: 7.5,
-    attrs: {
-      min: "1",
-      max: "10",
-      step: "0.5",
-    },
+  "move-speed": rangeParser({
+    label: "Movement Speed",
+    default: 1.5,
+    attrs: { min: "0", max: "10", step: "0.1" },
   }),
-  "example-number": numberParser({
-    label: "Example Number",
-    default: 5,
-    attrs: {
-      min: "1",
-      max: "10",
-    },
+  "place-speed": rangeParser({
+    label: "Placement Speed",
+    default: 0.2,
+    attrs: { min: "0", max: "5", step: "0.05" },
   }),
-  "example-colour": colorParser({
-    label: "Example Colour",
-    default: "FF5A5F",
+  "random-cell-chance": rangeParser({
+    label: "Random Cell Placement Chance",
+    default: 0.0002,
+    attrs: { min: "0", max: "0.1", step: "0.0001" },
   }),
-  "example-button": buttonParser({
-    text: "Example Button",
+  "cell-size": numberParser({
+    label: "Cell Size (px)",
+    default: 50,
+    attrs: { min: "0", max: "1000", step: "1" },
   }),
-  "example-file": fileParser({
-    text: "Example File",
-    attrs: {
-      accept: "image/*",
-    },
+  "resistor-chance": rangeParser({
+    label: "Resistor Chance",
+    default: 0.05,
+    attrs: { min: "0", max: "1", step: "0.01" },
   }),
-  "example-text": textParser({
-    label: "Example Text",
-    default: "Hello",
-    area: true,
-    attrs: {
-      placeholder: "World!",
-    },
+  "place-chance": rangeParser({
+    label: "Cell Placement Chance",
+    default: 0.07,
+    attrs: { min: "0", max: "1", step: "0.01" },
   }),
-  "example-datetime": datetimeParser({
-    label: "Example Date Time",
-    default: new Date("2018-06-14T10:03"),
+  "resistor-colours": collectionParser({
+    label: "Resistor Colours",
+    expandable: true,
+    fields: [colorParser({ label: "Colour" })],
+    default: [
+      ["E70000"],
+      ["FF8C00"],
+      ["FFEF00"],
+      ["00811F"],
+      ["0044FF"],
+      ["760089"],
+    ],
   }),
-  "example-select": selectParser({
-    label: "Example Select",
-    default: "bar",
-    options: ["foo", "bar", "baz", "another option"],
-  }),
-  "example-collection": collectionParser({
-    label: "Example Collection",
+  directions: collectionParser({
+    label: "Connection Directions",
     expandable: true,
     fields: [
-      rangeParser({
-        label: "Range",
-        default: 2,
-        attrs: {
-          min: "0",
-          max: "4",
-          step: "1",
-        },
+      numberParser({
+        label: "Delta X",
+        title: "A direction of (0, 0) will be ignored.",
       }),
-      checkboxParser({
-        label: "Checkbox",
-        default: false,
-      }),
-      selectParser({
-        label: "Select",
-        default: "Maybe",
-        options: ["Yes", "No", "Maybe"],
+      numberParser({
+        label: "Delta Y",
+        title: "A direction of (0, 0) will be ignored.",
       }),
     ],
     default: [
-      [4, true, "Yes"],
-      [1, false, "No"],
+      [-1, -1],
+      [-1, 0],
+      [-1, 1],
+      [0, -1],
+      [0, 1],
+      [1, -1],
+      [1, 0],
+      [1, 1],
     ],
   }),
 });
